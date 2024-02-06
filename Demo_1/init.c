@@ -161,7 +161,7 @@ void USART2_init(void) {
 		
 	USART_InitTypeDef USART_InitStructure;
 		
-	USART_InitStructure.USART_BaudRate = 9600;
+	USART_InitStructure.USART_BaudRate = 115200;
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;
 	USART_InitStructure.USART_StopBits = USART_StopBits_1;
 	USART_InitStructure.USART_Parity = USART_Parity_No;
@@ -171,6 +171,15 @@ void USART2_init(void) {
 
 	USART_Init(USART2, &USART_InitStructure);
 	USART_Cmd(USART2, ENABLE);
+	
+	NVIC_InitTypeDef NVIC_InitStructure;
+	// Enable the USART2 RX Interrupt
+	USART_ITConfig(USART2, USART_IT_RXNE, ENABLE );
+	NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&NVIC_InitStructure);
 }
 
 void USARTSend(char *pucBuffer, unsigned long ulCount){
