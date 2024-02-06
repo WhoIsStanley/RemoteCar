@@ -4,7 +4,7 @@ It use STM32F103TBT6 and ATmega328p.
 1. init.c(Timer setting)
   ~~~~~
 	//Timer 2
-  	timerInitStructure.TIM_Prescaler = 1440-1;
+	timerInitStructure.TIM_Prescaler = 1440-1;
 	timerInitStructure.TIM_CounterMode = TIM_CounterMode_Up;
 	timerInitStructure.TIM_Period = 100-1;
 	timerInitStructure.TIM_ClockDivision = TIM_CKD_DIV1;
@@ -28,8 +28,8 @@ TIM_Period: 100 = 0-100
   ~~~~~
 TIM_Pulse[^1]: Set the how much power you need  
 Set which Timer chanel to output PWM:  
-> TIM_OC**n**Init(TIM**x**, &outputChannelInit);  
-> TIM_OC**n**PreloadConfig(TIM**x**, &outputChannelInit);
+> TIM_OC<span style="color:red">n</span>Init(TIM**x**, &outputChannelInit);  
+> TIM_OC<span style="color:red">n</span>PreloadConfig(TIM**x**, &outputChannelInit);
 ***
 3. init.c(USART2 setting)
   ~~~~~
