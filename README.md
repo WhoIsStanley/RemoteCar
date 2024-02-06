@@ -1,5 +1,5 @@
 # Description
-It use STM32F103TBT6 and ATmega328p.
+It uses STM32F103TBT6 and ATmega328p.
 ## Demo_1
 1. init.c(Timer setting)
   ~~~~~
@@ -28,8 +28,8 @@ TIM_Period: 100 = 0-100
   ~~~~~
 TIM_Pulse[^1]: Set the how much power you need  
 Set which Timer chanel to output PWM:  
-> TIM_OC***n***Init(TIM**x**, &outputChannelInit);  
-> TIM_OC***n***PreloadConfig(TIM**x**, &outputChannelInit);
+> TIM_OC***n***Init(TIM***x***, &outputChannelInit);  
+> TIM_OC***n***PreloadConfig(TIM***x***, &outputChannelInit);
 ***
 3. init.c(USART2 setting)
   ~~~~~
