@@ -6,20 +6,30 @@
  */ 
 
 #include <avr/io.h>
-#include <stdio.h>
-#include <string.h>
 #include <avr/interrupt.h>
 
-unsigned char buffer[50];
-int state,numx,numy = 0;
-int ready = 1;
-int i = 0;
-unsigned char receive,key = 0;
+int numx,numy = 0;
+unsigned char key = 0;
 
 void send(unsigned char ch){
 	while(! (UCSR0A & (1<<UDRE0)));
 	UDR0 = ch;
 }
+
+ void delay()
+ {
+	 TCCR1A = 0b00000000;
+	 TCCR1B = 0b00001011; // Prescaler = 64
+	 OCR1A = 12500; // 1 / (16 MHz / 64) = 0.004 ms,  50ms / 0.004 ms = 12500
+	 
+	 unsigned char count = 0;
+	 while (count < 5) // 20 x 50 ms = 1 s
+	 {
+		 while(!(TIFR1 & (1<<OCF1A))) ;
+		 TIFR1 = (1<<OCF1A);
+		 count++;
+	 }
+ }
 
 int main(void)
 {	
@@ -37,23 +47,20 @@ int main(void)
     /* Replace with your application code */
     while (1) 
     {
-		if(ready == 1){
-			if(i == 0)
-			memset(buffer, 0, sizeof(buffer));
-			if(i<sizeof(buffer)-1){
-				sprintf(buffer, "X%dY%dZ", numx, numy);
-				send(buffer[i++]);
-			}else{
-				i = 0;
-				ready = 0;
-			}
-			
+		
+		if(numx > 60){
+			send('d');
 		}
-		if((UCSR0A & (1<<RXC0))){
-			key = UDR0;
-			receive = 0;
-			ready = 1;
+		else if(numx < 40){
+			send('b');
 		}
+		else if(numy > 60)
+			send('a');
+		else if(numy < 40)
+			send('c');
+		else
+			send('e');
+		delay();
     }		
 }
 
